@@ -4,6 +4,7 @@ import com.pluralsight.demo.internship.model.Internship;
 import com.pluralsight.demo.internship.repository.InternshipRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +26,11 @@ public class InternshipService {
         return internshipRepository.findAll().stream()
                 .filter(i -> i.isPublished())
                 .collect(Collectors.toList());
+    }
+
+    public List<Internship> findByCompanyOrLocation(String company, String location) {
+        // Intentional flaw: filters out unpublished, might not be what we want
+        return internshipRepository.findByCompanyIgnoreCaseOrLocationIgnoreCase(company, location);
     }
 
     public Internship getInternshipById(Long id) {
@@ -54,4 +60,6 @@ public class InternshipService {
     public void deleteInternship(Long id) {
         internshipRepository.deleteById(id);
     }
+
+
 }

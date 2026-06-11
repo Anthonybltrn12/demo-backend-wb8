@@ -37,6 +37,19 @@ public class CandidateController {
         return ResponseEntity.ok(candidate);
     }
 
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<List<Candidate>> searchCandidatesByName(@PathVariable String name){
+        List<Candidate> candidates = candidateService.getCandidatesByName(name);
+        return ResponseEntity.ok(candidates);
+    }
+
+    @GetMapping("/search/email/{email}")
+    public ResponseEntity<List<Candidate>> searchCandidateByEmail(@PathVariable String email){
+        List<Candidate> candidates;
+        candidates = candidateService.getCandidateByEmail(email);
+        return ResponseEntity.ok(candidates);
+    }
+
     @PostMapping
     public ResponseEntity<Candidate> createCandidate(@RequestBody Candidate candidate) {
         // Same flaw: returns 200 instead of 201
